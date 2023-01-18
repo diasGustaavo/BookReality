@@ -22,11 +22,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
-        // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        
-        // Set the scene to the view
-        sceneView.scene = scene
+        sceneView.autoenablesDefaultLighting = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,7 +30,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-
+        
+        if let imageToTrack = ARReferenceImage.referenceImages(inGroupNamed: "Books", bundle: Bundle.main) {
+            configuration.detectionImages = imageToTrack
+            configuration.maximumNumberOfTrackedImages = 2
+            print("Images Sucessfully Added")
+        }
+        
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -57,18 +59,46 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
 */
     
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
+    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+        let node = SCNNode()
         
-    }
-    
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+        if let imageAnchor = anchor as? ARImageAnchor {
+            
+            let plane = SCNPlane(width: imageAnchor.referenceImage.physicalSize.width, height: imageAnchor.referenceImage.physicalSize.width)
+            plane.firstMaterial?.diffuse.contents = UIColor(white: 1.0, alpha: 0.5)
+            
+            let planeNode = SCNNode(geometry: plane)
+            planeNode.eulerAngles.x = .pi / 2
+            
+            node.addChildNode(planeNode)
+            
+            if imageAnchor.referenceImage.name == "danbrown_inferno" {
+                let sceneName = "dantesMask"
+                guard let pokeScene = SCNScene(named: "art.scnassets/\(sceneName).scn") else {
+                    fatalError("no \(sceneName) scene detected!")
+                }
+                
+                guard let pokeNode = pokeScene.rootNode.childNodes.first else {
+                    fatalError("no \(sceneName) node detected!")
+                }
+                
+                planeNode.addChildNode(pokeNode)
+            }
+            
+            if imageAnchor.referenceImage.name == "history" {
+                let sceneName = "rosettaStone"
+                guard let pokeScene = SCNScene(named: "art.scnassets/\(sceneName).scn") else {
+                    fatalError("no \(sceneName) scene detected!")
+                }
+                
+                guard let pokeNode = pokeScene.rootNode.childNodes.first else {
+                    fatalError("no \(sceneName) node detected!")
+                }
+                
+                planeNode.addChildNode(pokeNode)
+            }
+        }
         
-    }
-    
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-        
+        return node
     }
 }
