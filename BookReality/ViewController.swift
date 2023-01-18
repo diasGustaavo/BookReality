@@ -19,9 +19,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the view's delegate
         sceneView.delegate = self
         
-        // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
-        
         sceneView.autoenablesDefaultLighting = true
     }
     
@@ -74,28 +71,28 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             if imageAnchor.referenceImage.name == "danbrown_inferno" {
                 let sceneName = "dantesMask"
-                guard let pokeScene = SCNScene(named: "art.scnassets/\(sceneName).scn") else {
+                guard let itemScene = SCNScene(named: "art.scnassets/\(sceneName).scn") else {
                     fatalError("no \(sceneName) scene detected!")
                 }
                 
-                guard let pokeNode = pokeScene.rootNode.childNodes.first else {
+                guard let itemNode = itemScene.rootNode.childNodes.first else {
                     fatalError("no \(sceneName) node detected!")
                 }
                 
-                planeNode.addChildNode(pokeNode)
+                planeNode.addChildNode(itemNode)
             }
             
             if imageAnchor.referenceImage.name == "history" {
                 let sceneName = "rosettaStone"
-                guard let pokeScene = SCNScene(named: "art.scnassets/\(sceneName).scn") else {
+                guard let itemScene = SCNScene(named: "art.scnassets/\(sceneName).scn") else {
                     fatalError("no \(sceneName) scene detected!")
                 }
                 
-                guard let pokeNode = pokeScene.rootNode.childNodes.first else {
+                guard let itemNode = itemScene.rootNode.childNodes.first else {
                     fatalError("no \(sceneName) node detected!")
                 }
                 
-                planeNode.addChildNode(pokeNode)
+                planeNode.addChildNode(itemNode)
             }
         }
         
