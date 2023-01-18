@@ -12,3 +12,8 @@ An AR app that reads the book cover and places a significant item from the story
 - [SceneKit](https://developer.apple.com/documentation/scenekit/)
 - [ARKit](https://developer.apple.com/documentation/arkit)
 - [UIKit](https://developer.apple.com/documentation/uikit)
+
+## Assets Used
+
+- [ScanTheWorld's Death Mask of Dante Alighieri](https://www.myminifactory.com/object/3d-print-death-mask-of-dante-alighieri-31399)
+- [The british museum's Rosetta Stone](https://sketchfab.com/3d-models/the-rosetta-stone-1e03509704a3490e99a173e53b93e282)
